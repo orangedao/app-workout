@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
 import './Schedule.css';
 
@@ -71,7 +72,7 @@ const Schedule = () => {
         <div className="no-profile-message">
           <h1>📅 Расписание тренировок</h1>
           <p>Для доступа к расписанию необходимо пройти входное тестирование</p>
-          <a href="/assessment" className="btn btn-primary">Пройти тестирование</a>
+          <Link to="/assessment" className="btn btn-primary">Пройти тестирование</Link>
         </div>
       </div>
     );
@@ -175,7 +176,7 @@ const Schedule = () => {
                 <p>Базовые упражнения без оборудования</p>
               </button>
               
-              <a href="/builder" className="option-card">
+              <Link to="/builder" className="option-card">
                 <span className="option-icon">🏗️</span>
                 <strong>Конструктор</strong>
                 <p>Создайте свою уникальную тренировку</p>
