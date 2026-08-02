@@ -180,7 +180,7 @@ const Schedule = () => {
                 <span className="option-icon">🏗️</span>
                 <strong>Конструктор</strong>
                 <p>Создайте свою уникальную тренировку</p>
-              </a>
+              </Link>
             </div>
 
             <button className="close-modal-btn" onClick={() => setShowAddModal(false)}>
