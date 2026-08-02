@@ -11,23 +11,22 @@
 
 .schedule-header h1 {
   font-size: 2rem;
-  color: #333;
+  color: var(--text);
   margin-bottom: 0.5rem;
 }
 
 .user-greeting {
-  color: #666;
-  background: #f5f5f5;
+  color: var(--text-secondary);
+  background: var(--secondary-bg);
   padding: 0.75rem 1.5rem;
   border-radius: 8px;
   display: inline-block;
 }
 
 .user-greeting strong {
-  color: #4CAF50;
+  color: var(--primary);
 }
 
-/* Календарная полоса */
 .calendar-strip {
   display: flex;
   gap: 0.5rem;
@@ -35,7 +34,7 @@
   padding: 1rem 0;
   margin-bottom: 2rem;
   scrollbar-width: thin;
-  scrollbar-color: #4CAF50 #f0f0f0;
+  scrollbar-color: var(--primary) var(--scrollbar-track);
 }
 
 .calendar-strip::-webkit-scrollbar {
@@ -43,12 +42,12 @@
 }
 
 .calendar-strip::-webkit-scrollbar-track {
-  background: #f0f0f0;
+  background: var(--scrollbar-track);
   border-radius: 3px;
 }
 
 .calendar-strip::-webkit-scrollbar-thumb {
-  background: #4CAF50;
+  background: var(--primary);
   border-radius: 3px;
 }
 
@@ -60,39 +59,39 @@
   justify-content: center;
   width: 70px;
   height: 90px;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border);
   border-radius: 12px;
-  background: white;
+  background: var(--card-bg);
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .date-card:hover {
-  border-color: #4CAF50;
+  border-color: var(--primary);
   transform: translateY(-2px);
 }
 
 .date-card.today {
-  background: #e8f5e9;
-  border-color: #4CAF50;
+  background: var(--primary-bg);
+  border-color: var(--primary);
 }
 
 .date-card.selected {
-  background: #4CAF50;
+  background: var(--primary);
   color: white;
-  border-color: #4CAF50;
+  border-color: var(--primary);
 }
 
 .date-card .weekday {
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: #999;
+  color: var(--text-muted);
   margin-bottom: 0.25rem;
 }
 
 .date-card.today .weekday,
 .date-card.selected .weekday {
-  color: #4CAF50;
+  color: var(--primary);
 }
 
 .date-card.selected .weekday {
@@ -108,7 +107,7 @@
 .date-card .month {
   font-size: 0.75rem;
   text-transform: uppercase;
-  color: #999;
+  color: var(--text-muted);
   margin-top: 0.25rem;
 }
 
@@ -116,12 +115,11 @@
   color: rgba(255, 255, 255, 0.9);
 }
 
-/* Расписание дня */
 .day-schedule {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--card-shadow);
 }
 
 .day-header {
@@ -130,20 +128,20 @@
   align-items: center;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid #f0f0f0;
+  border-bottom: 2px solid var(--border);
 }
 
 .day-header h2 {
   margin: 0;
   font-size: 1.3rem;
-  color: #333;
+  color: var(--text);
   display: flex;
   align-items: center;
   gap: 0.75rem;
 }
 
 .today-badge {
-  background: #4CAF50;
+  background: var(--primary);
   color: white;
   padding: 0.25rem 0.75rem;
   border-radius: 20px;
@@ -153,7 +151,7 @@
 
 .add-workout-btn {
   padding: 0.75rem 1.5rem;
-  background: #4CAF50;
+  background: var(--primary);
   color: white;
   border: none;
   border-radius: 8px;
@@ -164,19 +162,19 @@
 }
 
 .add-workout-btn:hover {
-  background: #45a049;
+  background: var(--primary-hover);
 }
 
 .no-workouts {
   text-align: center;
   padding: 3rem 0;
-  color: #999;
+  color: var(--text-muted);
 }
 
 .no-workouts .hint {
   font-size: 0.9rem;
   margin-top: 0.5rem;
-  color: #bbb;
+  color: var(--border);
 }
 
 .workouts-list {
@@ -186,17 +184,17 @@
 }
 
 .workout-card {
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border);
   border-radius: 12px;
   padding: 1.25rem;
-  background: #fafafa;
+  background: var(--secondary-bg);
   transition: all 0.3s;
 }
 
 .workout-card:hover {
-  border-color: #4CAF50;
-  background: white;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border-color: var(--primary);
+  background: var(--card-bg);
+  box-shadow: 0 4px 12px var(--card-shadow);
 }
 
 .workout-header {
@@ -208,7 +206,7 @@
 
 .workout-header h3 {
   margin: 0;
-  color: #333;
+  color: var(--text);
   font-size: 1.1rem;
 }
 
@@ -230,11 +228,11 @@
   gap: 1rem;
   margin-bottom: 1rem;
   font-size: 0.85rem;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .exercises-preview {
-  background: white;
+  background: var(--card-bg);
   border-radius: 8px;
   padding: 1rem;
 }
@@ -244,7 +242,7 @@
   align-items: center;
   gap: 0.75rem;
   padding: 0.5rem 0;
-  border-bottom: 1px solid #f0f0f0;
+  border-bottom: 1px solid var(--border);
 }
 
 .exercise-row:last-child {
@@ -252,7 +250,7 @@
 }
 
 .sets-reps {
-  background: #4CAF50;
+  background: var(--primary);
   color: white;
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
@@ -264,31 +262,30 @@
 
 .exercise-name {
   flex: 1;
-  color: #333;
+  color: var(--text);
   font-size: 0.9rem;
 }
 
 .weight {
-  color: #1976D2;
+  color: var(--info);
   font-size: 0.85rem;
   font-weight: 500;
 }
 
 .more-exercises {
   margin: 0.5rem 0 0 0;
-  color: #999;
+  color: var(--text-muted);
   font-size: 0.85rem;
   font-style: italic;
 }
 
-/* Модальное окно */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.5);
+  background: var(--modal-bg);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -302,21 +299,21 @@
 }
 
 .modal-content {
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
   padding: 2rem;
   max-width: 500px;
   width: 90%;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 4px 20px var(--card-shadow);
 }
 
 .modal-content h2 {
   margin: 0 0 0.5rem 0;
-  color: #333;
+  color: var(--text);
 }
 
 .modal-content > p {
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
 }
 
@@ -331,9 +328,9 @@
   flex-direction: column;
   align-items: center;
   padding: 1.5rem;
-  border: 2px solid #e0e0e0;
+  border: 2px solid var(--border);
   border-radius: 12px;
-  background: white;
+  background: var(--card-bg);
   cursor: pointer;
   transition: all 0.3s;
   text-decoration: none;
@@ -341,8 +338,8 @@
 }
 
 .option-card:hover {
-  border-color: #4CAF50;
-  background: #e8f5e9;
+  border-color: var(--primary);
+  background: var(--primary-bg);
   transform: translateY(-2px);
 }
 
@@ -353,22 +350,22 @@
 
 .option-card strong {
   font-size: 1.1rem;
-  color: #333;
+  color: var(--text);
   margin-bottom: 0.25rem;
 }
 
 .option-card p {
   margin: 0;
   font-size: 0.85rem;
-  color: #666;
+  color: var(--text-secondary);
   text-align: center;
 }
 
 .close-modal-btn {
   width: 100%;
   padding: 0.75rem;
-  background: #e0e0e0;
-  color: #333;
+  background: var(--border);
+  color: var(--text);
   border: none;
   border-radius: 8px;
   font-size: 1rem;
@@ -377,24 +374,24 @@
 }
 
 .close-modal-btn:hover {
-  background: #d0d0d0;
+  background: var(--input-border);
 }
 
 .no-profile-message {
   text-align: center;
   padding: 4rem 2rem;
-  background: white;
+  background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px var(--card-shadow);
 }
 
 .no-profile-message h1 {
   margin-bottom: 1rem;
-  color: #333;
+  color: var(--text);
 }
 
 .no-profile-message p {
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 1.5rem;
 }
 

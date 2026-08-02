@@ -1,9 +1,32 @@
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { AppProvider, useAppContext } from './context/AppContext';
 import Assessment from './pages/Assessment';
 import WorkoutBuilder from './pages/WorkoutBuilder';
 import Schedule from './pages/Schedule';
 import './App.css';
+
+const ThemeToggle = () => {
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('workout_theme');
+    return saved || 'light';
+  });
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    localStorage.setItem('workout_theme', theme);
+  }, [theme]);
+
+  const toggleTheme = () => {
+    setTheme(prev => prev === 'light' ? 'dark' : 'light');
+  };
+
+  return (
+    <button onClick={toggleTheme} className="nav-link theme-toggle" title="Переключить тему">
+      {theme === 'light' ? '🌙' : '☀️'}
+    </button>
+  );
+};
 
 const Navigation = () => {
   const { userProfile, clearAllData } = useAppContext();
@@ -24,6 +47,7 @@ const Navigation = () => {
             🔄 Сброс
           </button>
         )}
+        <ThemeToggle />
       </div>
     </nav>
   );
