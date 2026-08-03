@@ -3,6 +3,16 @@ import { exercises, muscleGroups, equipmentTypes } from '../data/exercises';
 import { Plus, X, Trash2, Save, Search, Zap, Clock, Weight } from 'lucide-react';
 import './WorkoutBuilder.css';
 
+const difficultyColors = {
+  'Легкий': '#1976D2',
+  'Средний': '#F57C00',
+  'Сложный': '#D32F2F',
+};
+
+const getDifficultyColor = (difficulty) => {
+  return difficultyColors[difficulty] || '#666';
+};
+
 const WorkoutBuilder = () => {
   const [selectedExercises, setSelectedExercises] = useState([]);
   const [workoutName, setWorkoutName] = useState('');
@@ -55,13 +65,6 @@ const WorkoutBuilder = () => {
 
   const getTotalDuration = () => {
     return selectedExercises.length * 5;
-  };
-
-  const getDifficultyColor = (difficulty) => {
-    const lower = difficulty.toLowerCase();
-    if (lower === 'легкий') return '#1976D2';
-    if (lower === 'средний') return '#F57C00';
-    return '#D32F2F';
   };
 
   return (

@@ -3,6 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 const AppContext = createContext();
 
+// eslint-disable-next-line react/only-export-components
 export const useAppContext = () => {
   const context = useContext(AppContext);
   if (!context) {

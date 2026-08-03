@@ -4,7 +4,7 @@ import { AppProvider, useAppContext } from './context/AppContext';
 import Assessment from './pages/Assessment';
 import WorkoutBuilder from './pages/WorkoutBuilder';
 import Schedule from './pages/Schedule';
-import { Menu, Sun, Moon, RotateCcw, Dumbbell, Calendar, Wrench, ClipboardCheck, Sparkles, Target } from 'lucide-react';
+import { Menu, Sun, Moon, RotateCcw, Dumbbell, Calendar, Wrench, ClipboardCheck, Sparkles, Target, X } from 'lucide-react';
 import './App.css';
 
 const ThemeToggle = () => {
@@ -39,7 +39,7 @@ const MobileMenu = ({ isOpen, onClose }) => {
       <div className="mobile-menu-content" onClick={e => e.stopPropagation()}>
         <div className="mobile-menu-header">
           <h3>Menu</h3>
-          <button onClick={onClose} className="close-menu-btn">&times;</button>
+          <button onClick={onClose} className="close-menu-btn"><X size={20} /></button>
         </div>
         <nav className="mobile-menu-nav">
           <Link to="/schedule" onClick={onClose}><Calendar size={18} />Расписание</Link>
