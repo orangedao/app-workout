@@ -175,7 +175,7 @@ const Dashboard = () => {
 function App() {
   return (
     <AppProvider>
-      <Router>
+      <Router basename="/app-workout">
         <div className="app">
           <Navigation />
           <main className="main-content">
