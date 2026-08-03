@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { exercises, muscleGroups, equipmentTypes } from '../data/exercises';
+import { Plus, X, Trash2, Save, Search, Zap, Clock, Weight } from 'lucide-react';
 import './WorkoutBuilder.css';
 
 const WorkoutBuilder = () => {
@@ -8,11 +9,13 @@ const WorkoutBuilder = () => {
   const [filterMuscle, setFilterMuscle] = useState('Все');
   const [filterEquipment, setFilterEquipment] = useState('Все');
   const [showSavedMessage, setShowSavedMessage] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
 
   const filteredExercises = exercises.filter(ex => {
     const muscleMatch = filterMuscle === 'Все' || ex.muscleGroup === filterMuscle;
     const equipmentMatch = filterEquipment === 'Все' || ex.equipment === filterEquipment;
-    return muscleMatch && equipmentMatch;
+    const searchMatch = ex.name.toLowerCase().includes(searchQuery.toLowerCase());
+    return muscleMatch && equipmentMatch && searchMatch;
   });
 
   const toggleExercise = (exercise) => {
@@ -32,6 +35,7 @@ const WorkoutBuilder = () => {
   const clearSelection = () => {
     setSelectedExercises([]);
     setWorkoutName('');
+    setSearchQuery('');
   };
 
   const saveWorkout = () => {
@@ -53,17 +57,33 @@ const WorkoutBuilder = () => {
     return selectedExercises.length * 5;
   };
 
+  const getDifficultyColor = (difficulty) => {
+    const lower = difficulty.toLowerCase();
+    if (lower === 'легкий') return '#1976D2';
+    if (lower === 'средний') return '#F57C00';
+    return '#D32F2F';
+  };
+
   return (
     <div className="workout-builder">
       <div className="builder-header">
-        <h1>🏗️ Конструктор тренировок</h1>
+        <div className="builder-header-icon"><Zap size={32} /></div>
+        <h1>Конструктор тренировок</h1>
         <p>Создайте свою персональную тренировку из упражнений</p>
       </div>
 
       <div className="builder-content">
-        {/* Левая панель - Фильтры и упражнения */}
         <div className="exercises-panel">
           <div className="filters">
+            <div className="search-box">
+              <Search size={16} />
+              <input
+                type="text"
+                placeholder="Поиск упражнения..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+            </div>
             <div className="filter-group">
               <label>Группа мышц:</label>
               <select value={filterMuscle} onChange={(e) => setFilterMuscle(e.target.value)}>
@@ -94,15 +114,15 @@ const WorkoutBuilder = () => {
                 <div className="exercise-info">
                   <h4>{exercise.name}</h4>
                   <div className="exercise-meta">
-                    <span className={`difficulty-badge difficulty-${exercise.difficulty.toLowerCase()}`}>
+                    <span className="difficulty-badge" style={{ backgroundColor: getDifficultyColor(exercise.difficulty) + '20', color: getDifficultyColor(exercise.difficulty) }}>
                       {exercise.difficulty}
                     </span>
                     <span className="muscle-tag">{exercise.muscleGroup}</span>
                     <span className="equipment-tag">{exercise.equipment}</span>
                   </div>
                   <div className="exercise-stats">
-                    <span>📊 {exercise.defaultSets} подходов</span>
-                    <span>🔄 {exercise.defaultReps} повторений</span>
+                    <span><Weight size={14} /> {exercise.defaultSets} подходов</span>
+                    <span><Clock size={14} /> {exercise.defaultReps} повторений</span>
                   </div>
                 </div>
                 <div className="exercise-checkbox">
@@ -117,21 +137,21 @@ const WorkoutBuilder = () => {
           </div>
         </div>
 
-        {/* Правая панель - Выбранные упражнения */}
         <div className="selection-panel">
           <div className="selection-header">
             <h3>Выбранные упражнения ({selectedExercises.length})</h3>
             {selectedExercises.length > 0 && (
               <button className="clear-btn" onClick={clearSelection}>
-                Очистить всё
+                <Trash2 size={14} /> Очистить
               </button>
             )}
           </div>
 
           {selectedExercises.length === 0 ? (
             <div className="empty-selection">
+              <div className="empty-icon"><Plus size={40} /></div>
               <p>Выберите упражнения из списка слева</p>
-              <p className="hint">💡 Кликайте на карточки упражнений для добавления</p>
+              <p className="hint">Кликайте на карточки для добавления</p>
             </div>
           ) : (
             <>
@@ -153,7 +173,7 @@ const WorkoutBuilder = () => {
                       className="remove-btn"
                       onClick={() => toggleExercise(exercise)}
                     >
-                      ✕
+                      <X size={16} />
                     </button>
                   </div>
                 ))}
@@ -183,7 +203,7 @@ const WorkoutBuilder = () => {
                   className="save-workout-btn"
                   onClick={saveWorkout}
                 >
-                  💾 Сохранить тренировку
+                  <Save size={18} /> Сохранить тренировку
                 </button>
 
                 {showSavedMessage && (

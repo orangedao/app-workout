@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
+import { Calendar, Plus, X, Clock, Dumbbell, Weight, Sparkles } from 'lucide-react';
 import './Schedule.css';
 
 const Schedule = () => {
@@ -8,7 +9,6 @@ const Schedule = () => {
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [showAddModal, setShowAddModal] = useState(false);
 
-  // Генерация дней недели для отображения
   const getWeekDays = () => {
     const today = new Date();
     const days = [];
@@ -46,7 +46,6 @@ const Schedule = () => {
       return;
     }
 
-    // Создаем быструю тренировку на основе уровня пользователя
     const quickExercises = [
       { id: '3', name: 'Отжимания от пола', muscleGroup: 'Грудь', equipment: 'Без оборудования', difficulty: 'Легкий', defaultSets: 3, defaultReps: '15-20', weightPercent: 0 },
       { id: '6', name: 'Подтягивания', muscleGroup: 'Спина', equipment: 'Без оборудования', difficulty: 'Средний', defaultSets: 3, defaultReps: '8-12', weightPercent: 0 },
@@ -70,7 +69,8 @@ const Schedule = () => {
     return (
       <div className="schedule-container">
         <div className="no-profile-message">
-          <h1>📅 Расписание тренировок</h1>
+          <div className="no-profile-icon"><Calendar size={48} /></div>
+          <h1>Расписание тренировок</h1>
           <p>Для доступа к расписанию необходимо пройти входное тестирование</p>
           <Link to="/assessment" className="btn btn-primary">Пройти тестирование</Link>
         </div>
@@ -81,14 +81,14 @@ const Schedule = () => {
   return (
     <div className="schedule-container">
       <div className="schedule-header">
-        <h1>📅 Расписание тренировок</h1>
+        <div className="schedule-header-icon"><Calendar size={32} /></div>
+        <h1>Расписание тренировок</h1>
         <p className="user-greeting">
           Привет! Ваш уровень: <strong>{userProfile.fitnessLevel}</strong> | 
           Цель: <strong>{userProfile.goals?.join(', ')}</strong>
         </p>
       </div>
 
-      {/* Календарная полоса */}
       <div className="calendar-strip">
         {weekDays.map((date, index) => (
           <button
@@ -103,7 +103,6 @@ const Schedule = () => {
         ))}
       </div>
 
-      {/* Тренировки на выбранный день */}
       <div className="day-schedule">
         <div className="day-header">
           <h2>
@@ -114,13 +113,14 @@ const Schedule = () => {
             className="add-workout-btn"
             onClick={() => setShowAddModal(true)}
           >
-            + Добавить тренировку
+            <Plus size={16} /> Добавить тренировку
           </button>
         </div>
 
         {currentWorkouts.length === 0 ? (
           <div className="no-workouts">
-            <p>📭 На этот день пока нет запланированных тренировок</p>
+            <div className="no-workouts-icon"><Sparkles size={40} /></div>
+            <p>На этот день пока нет запланированных тренировок</p>
             <p className="hint">Нажмите "Добавить тренировку", чтобы создать новую</p>
           </div>
         ) : (
@@ -133,13 +133,13 @@ const Schedule = () => {
                     className="delete-btn"
                     onClick={() => handleRemoveWorkout(workout.id)}
                   >
-                    🗑️
+                    <X size={18} />
                   </button>
                 </div>
                 
                 <div className="workout-meta">
-                  <span>⏱️ ~{workout.totalDuration || workout.exercises?.length * 5 || 30} мин</span>
-                  <span>💪 {workout.exercises?.length || 0} упражнений</span>
+                  <span><Clock size={14} /> ~{workout.totalDuration || workout.exercises?.length * 5 || 30} мин</span>
+                  <span><Dumbbell size={14} /> {workout.exercises?.length || 0} упражнений</span>
                 </div>
 
                 <div className="exercises-preview">
@@ -148,7 +148,7 @@ const Schedule = () => {
                       <span className="sets-reps">{ex.sets} x {ex.reps}</span>
                       <span className="exercise-name">{ex.name}</span>
                       {ex.recommendedWeight && ex.recommendedWeight !== ex.reps && (
-                        <span className="weight">⚖️ {ex.recommendedWeight}</span>
+                        <span className="weight"><Weight size={14} /> {ex.recommendedWeight}</span>
                       )}
                     </div>
                   ))}
@@ -162,11 +162,15 @@ const Schedule = () => {
         )}
       </div>
 
-      {/* Модальное окно добавления */}
       {showAddModal && (
         <div className="modal-overlay" onClick={() => setShowAddModal(false)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-            <h2>Добавить тренировку</h2>
+            <div className="modal-header">
+              <h2>Добавить тренировку</h2>
+              <button className="modal-close" onClick={() => setShowAddModal(false)}>
+                <X size={20} />
+              </button>
+            </div>
             <p>Выберите тип тренировки:</p>
             
             <div className="modal-options">
@@ -176,7 +180,7 @@ const Schedule = () => {
                 <p>Базовые упражнения без оборудования</p>
               </button>
               
-              <Link to="/builder" className="option-card">
+              <Link to="/builder" className="option-card" onClick={() => setShowAddModal(false)}>
                 <span className="option-icon">🏗️</span>
                 <strong>Конструктор</strong>
                 <p>Создайте свою уникальную тренировку</p>

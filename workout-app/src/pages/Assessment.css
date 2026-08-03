@@ -9,10 +9,23 @@
   margin-bottom: 2rem;
 }
 
+.assessment-header-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+  border-radius: 18px;
+  color: white;
+  margin-bottom: 1rem;
+}
+
 .assessment-header h1 {
   font-size: 2rem;
   color: var(--text);
   margin-bottom: 0.5rem;
+  font-weight: 700;
 }
 
 .assessment-header p {
@@ -33,6 +46,7 @@
   height: 100%;
   background: linear-gradient(90deg, var(--primary), var(--primary-hover));
   transition: width 0.3s ease;
+  border-radius: 4px;
 }
 
 .step-indicator {
@@ -43,16 +57,18 @@
 
 .assessment-content {
   background: var(--card-bg);
-  border-radius: 12px;
-  padding: 2rem;
-  box-shadow: 0 2px 8px var(--card-shadow);
+  border-radius: 16px;
+  padding: 2.5rem;
+  box-shadow: 0 2px 12px var(--card-shadow);
   margin-bottom: 2rem;
+  border: 1px solid var(--border);
 }
 
 .assessment-step h2 {
   color: var(--text);
   margin-bottom: 1.5rem;
   font-size: 1.5rem;
+  font-weight: 600;
 }
 
 .form-group {
@@ -64,24 +80,26 @@
   margin-bottom: 0.5rem;
   color: var(--text-secondary);
   font-weight: 500;
+  font-size: 0.9rem;
 }
 
 .form-group input[type="number"],
 .form-group select {
   width: 100%;
-  padding: 0.75rem;
+  padding: 0.85rem 1rem;
   border: 2px solid var(--input-border);
-  border-radius: 8px;
+  border-radius: 10px;
   font-size: 1rem;
   background: var(--input-bg);
   color: var(--text);
-  transition: border-color 0.3s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .form-group input:focus,
 .form-group select:focus {
   outline: none;
   border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.15);
 }
 
 .form-row {
@@ -100,17 +118,27 @@
   align-items: center;
   gap: 0.5rem;
   cursor: pointer;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  border: 2px solid var(--border);
+  transition: all 0.2s;
+}
+
+.radio-label:hover {
+  border-color: var(--primary);
 }
 
 .radio-label input[type="radio"] {
   width: auto;
+  accent-color: var(--primary);
 }
 
 .bmi-result {
   background: var(--secondary-bg);
-  padding: 1rem;
-  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
   margin-top: 1rem;
+  border: 1px solid var(--border);
 }
 
 .bmi-result p {
@@ -124,14 +152,15 @@
 
 .fitness-levels-info {
   background: var(--secondary-bg);
-  padding: 1rem;
-  border-radius: 8px;
+  padding: 1.25rem;
+  border-radius: 10px;
   margin-top: 1rem;
+  border: 1px solid var(--border);
 }
 
 .fitness-levels-info h3 {
   font-size: 1rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.75rem;
   color: var(--text-secondary);
 }
 
@@ -143,6 +172,7 @@
 .fitness-levels-info li {
   padding: 0.5rem 0;
   border-bottom: 1px solid var(--border);
+  font-size: 0.9rem;
 }
 
 .fitness-levels-info li:last-child {
@@ -151,8 +181,8 @@
 
 .goals-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 0.75rem;
   margin-top: 1rem;
 }
 
@@ -161,17 +191,18 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 1.5rem;
+  padding: 1.25rem;
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   background: var(--card-bg);
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 
 .goal-card:hover {
   border-color: var(--primary);
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--card-shadow);
 }
 
 .goal-card.selected {
@@ -185,16 +216,18 @@
 }
 
 .goal-label {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   color: var(--text-secondary);
   text-align: center;
+  font-weight: 500;
 }
 
 .selected-goals {
   margin-top: 1.5rem;
-  padding: 1rem;
+  padding: 1rem 1.25rem;
   background: var(--secondary-bg);
-  border-radius: 8px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
 }
 
 .selected-goals h3 {
@@ -211,6 +244,7 @@
 .selected-goals li {
   padding: 0.25rem 0;
   color: var(--primary);
+  font-weight: 500;
 }
 
 .assessment-footer {
@@ -220,13 +254,16 @@
 }
 
 .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.75rem 2rem;
   border: none;
-  border-radius: 8px;
-  font-size: 1rem;
+  border-radius: 10px;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 
 .btn:disabled {
@@ -241,6 +278,8 @@
 
 .btn-primary:hover:not(:disabled) {
   background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
 .btn-secondary {
@@ -261,9 +300,18 @@
   background: #1565C0;
 }
 
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 @media (max-width: 600px) {
   .assessment-container {
     padding: 1rem;
+  }
+
+  .assessment-content {
+    padding: 1.5rem;
   }
 
   .form-row {
@@ -271,7 +319,7 @@
   }
 
   .goals-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 
   .assessment-footer {
@@ -280,5 +328,6 @@
 
   .btn {
     width: 100%;
+    justify-content: center;
   }
 }

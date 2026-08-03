@@ -9,18 +9,33 @@
   margin-bottom: 2rem;
 }
 
+.schedule-header-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 64px;
+  height: 64px;
+  background: linear-gradient(135deg, var(--gradient-1), var(--gradient-2));
+  border-radius: 18px;
+  color: white;
+  margin-bottom: 1rem;
+}
+
 .schedule-header h1 {
   font-size: 2rem;
   color: var(--text);
   margin-bottom: 0.5rem;
+  font-weight: 700;
 }
 
 .user-greeting {
   color: var(--text-secondary);
   background: var(--secondary-bg);
   padding: 0.75rem 1.5rem;
-  border-radius: 8px;
+  border-radius: 10px;
   display: inline-block;
+  font-size: 0.9rem;
+  border: 1px solid var(--border);
 }
 
 .user-greeting strong {
@@ -57,18 +72,19 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 70px;
-  height: 90px;
+  width: 72px;
+  height: 96px;
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   background: var(--card-bg);
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 
 .date-card:hover {
   border-color: var(--primary);
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--card-shadow);
 }
 
 .date-card.today {
@@ -83,10 +99,11 @@
 }
 
 .date-card .weekday {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   color: var(--text-muted);
   margin-bottom: 0.25rem;
+  letter-spacing: 0.05em;
 }
 
 .date-card.today .weekday,
@@ -105,10 +122,11 @@
 }
 
 .date-card .month {
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   text-transform: uppercase;
   color: var(--text-muted);
   margin-top: 0.25rem;
+  letter-spacing: 0.05em;
 }
 
 .date-card.selected .month {
@@ -117,9 +135,10 @@
 
 .day-schedule {
   background: var(--card-bg);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 1.5rem;
-  box-shadow: 0 2px 8px var(--card-shadow);
+  box-shadow: 0 2px 12px var(--card-shadow);
+  border: 1px solid var(--border);
 }
 
 .day-header {
@@ -128,41 +147,49 @@
   align-items: center;
   margin-bottom: 1.5rem;
   padding-bottom: 1rem;
-  border-bottom: 2px solid var(--border);
+  border-bottom: 1px solid var(--border);
 }
 
 .day-header h2 {
   margin: 0;
-  font-size: 1.3rem;
+  font-size: 1.25rem;
   color: var(--text);
   display: flex;
   align-items: center;
   gap: 0.75rem;
+  font-weight: 600;
 }
 
 .today-badge {
   background: var(--primary);
   color: white;
-  padding: 0.25rem 0.75rem;
+  padding: 0.2rem 0.75rem;
   border-radius: 20px;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
 }
 
 .add-workout-btn {
-  padding: 0.75rem 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.7rem 1.25rem;
   background: var(--primary);
   color: white;
   border: none;
-  border-radius: 8px;
-  font-size: 0.95rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
 }
 
 .add-workout-btn:hover {
   background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
 .no-workouts {
@@ -171,10 +198,27 @@
   color: var(--text-muted);
 }
 
+.no-workouts-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  background: var(--secondary-bg);
+  border-radius: 20px;
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+}
+
+.no-workouts p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+}
+
 .no-workouts .hint {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   margin-top: 0.5rem;
-  color: var(--border);
+  color: var(--text-muted);
 }
 
 .workouts-list {
@@ -185,16 +229,16 @@
 
 .workout-card {
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   padding: 1.25rem;
   background: var(--secondary-bg);
-  transition: all 0.3s;
+  transition: all 0.2s;
 }
 
 .workout-card:hover {
   border-color: var(--primary);
   background: var(--card-bg);
-  box-shadow: 0 4px 12px var(--card-shadow);
+  box-shadow: 0 4px 16px var(--card-shadow);
 }
 
 .workout-header {
@@ -208,33 +252,49 @@
   margin: 0;
   color: var(--text);
   font-size: 1.1rem;
+  font-weight: 600;
 }
 
 .delete-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
   background: none;
   border: none;
   cursor: pointer;
-  font-size: 1.2rem;
-  opacity: 0.6;
-  transition: opacity 0.3s;
+  font-size: 1rem;
+  opacity: 0.5;
+  transition: opacity 0.2s, background 0.2s, color 0.2s;
+  border-radius: 8px;
+  color: var(--danger);
 }
 
 .delete-btn:hover {
   opacity: 1;
+  background: var(--danger-bg);
 }
 
 .workout-meta {
   display: flex;
   gap: 1rem;
   margin-bottom: 1rem;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
+}
+
+.workout-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
 }
 
 .exercises-preview {
   background: var(--card-bg);
-  border-radius: 8px;
+  border-radius: 10px;
   padding: 1rem;
+  border: 1px solid var(--border);
 }
 
 .exercise-row {
@@ -252,69 +312,95 @@
 .sets-reps {
   background: var(--primary);
   color: white;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-size: 0.75rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-size: 0.7rem;
   font-weight: 600;
-  min-width: 50px;
+  min-width: 48px;
   text-align: center;
 }
 
 .exercise-name {
   flex: 1;
   color: var(--text);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .weight {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
   color: var(--info);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-weight: 500;
 }
 
 .more-exercises {
   margin: 0.5rem 0 0 0;
   color: var(--text-muted);
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   font-style: italic;
 }
 
 .modal-overlay {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  inset: 0;
   background: var(--modal-bg);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 1000;
-  animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  animation: fadeIn 0.2s ease;
+  backdrop-filter: blur(4px);
 }
 
 .modal-content {
   background: var(--card-bg);
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 2rem;
   max-width: 500px;
   width: 90%;
-  box-shadow: 0 4px 20px var(--card-shadow);
+  box-shadow: 0 8px 32px var(--card-shadow);
+  border: 1px solid var(--border);
+  animation: slideUp 0.3s ease;
 }
 
-.modal-content h2 {
-  margin: 0 0 0.5rem 0;
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+.modal-header h2 {
+  margin: 0;
   color: var(--text);
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.modal-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: var(--secondary-bg);
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--text-secondary);
+  transition: background 0.2s;
+}
+
+.modal-close:hover {
+  background: var(--border);
 }
 
 .modal-content > p {
   color: var(--text-secondary);
   margin-bottom: 1.5rem;
+  font-size: 0.9rem;
 }
 
 .modal-options {
@@ -329,10 +415,10 @@
   align-items: center;
   padding: 1.5rem;
   border: 2px solid var(--border);
-  border-radius: 12px;
+  border-radius: 14px;
   background: var(--card-bg);
   cursor: pointer;
-  transition: all 0.3s;
+  transition: all 0.2s;
   text-decoration: none;
   color: inherit;
 }
@@ -341,6 +427,7 @@
   border-color: var(--primary);
   background: var(--primary-bg);
   transform: translateY(-2px);
+  box-shadow: 0 4px 12px var(--card-shadow);
 }
 
 .option-icon {
@@ -349,14 +436,14 @@
 }
 
 .option-card strong {
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   color: var(--text);
   margin-bottom: 0.25rem;
 }
 
 .option-card p {
   margin: 0;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: var(--text-secondary);
   text-align: center;
 }
@@ -364,35 +451,85 @@
 .close-modal-btn {
   width: 100%;
   padding: 0.75rem;
-  background: var(--border);
+  background: var(--secondary-bg);
   color: var(--text);
-  border: none;
-  border-radius: 8px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: background 0.2s;
 }
 
 .close-modal-btn:hover {
-  background: var(--input-border);
+  background: var(--border);
 }
 
 .no-profile-message {
   text-align: center;
   padding: 4rem 2rem;
   background: var(--card-bg);
-  border-radius: 12px;
-  box-shadow: 0 2px 8px var(--card-shadow);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px var(--card-shadow);
+  border: 1px solid var(--border);
+}
+
+.no-profile-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 72px;
+  height: 72px;
+  background: var(--secondary-bg);
+  border-radius: 20px;
+  margin-bottom: 1rem;
+  color: var(--text-muted);
 }
 
 .no-profile-message h1 {
   margin-bottom: 1rem;
   color: var(--text);
+  font-size: 1.8rem;
 }
 
 .no-profile-message p {
   color: var(--text-secondary);
   margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: white;
+}
+
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 @media (max-width: 600px) {
@@ -405,8 +542,8 @@
   }
 
   .date-card {
-    width: 55px;
-    height: 75px;
+    width: 56px;
+    height: 80px;
   }
 
   .date-card .day {
@@ -421,6 +558,7 @@
 
   .add-workout-btn {
     width: 100%;
+    justify-content: center;
   }
 
   .workout-header {
@@ -435,6 +573,6 @@
 
   .weight {
     width: 100%;
-    margin-left: 58px;
+    margin-left: 56px;
   }
 }

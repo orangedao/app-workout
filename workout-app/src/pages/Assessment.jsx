@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
+import { ChevronRight, ChevronLeft, CheckCircle, User, Target, Activity } from 'lucide-react';
 import './Assessment.css';
 
 const Assessment = () => {
@@ -78,6 +79,9 @@ const Assessment = () => {
     if (bmi < 30) return 'Избыточный вес';
     return 'Ожирение';
   };
+
+  const stepIcons = [User, Activity, Target];
+  const StepIcon = stepIcons[step - 1] || Target;
 
   const renderStep1 = () => (
     <div className="assessment-step">
@@ -246,7 +250,8 @@ const Assessment = () => {
   return (
     <div className="assessment-container">
       <div className="assessment-header">
-        <h1>🏋️ Входное тестирование</h1>
+        <div className="assessment-header-icon"><StepIcon size={32} /></div>
+        <h1>Входное тестирование</h1>
         <p>Ответьте на несколько вопросов для персонализации тренировок</p>
         <div className="progress-bar">
           <div className="progress" style={{ width: `${(step / 3) * 100}%` }}></div>
@@ -263,7 +268,7 @@ const Assessment = () => {
       <div className="assessment-footer">
         {step > 1 && (
           <button className="btn btn-secondary" onClick={prevStep}>
-            Назад
+            <ChevronLeft size={18} /> Назад
           </button>
         )}
         
@@ -273,7 +278,7 @@ const Assessment = () => {
             onClick={nextStep}
             disabled={!validateStep(step)}
           >
-            Далее
+            Далее <ChevronRight size={18} />
           </button>
         ) : (
           <button 
@@ -281,7 +286,7 @@ const Assessment = () => {
             onClick={handleSubmit}
             disabled={!validateStep(step)}
           >
-            Завершить и начать
+            <CheckCircle size={18} /> Завершить и начать
           </button>
         )}
       </div>
