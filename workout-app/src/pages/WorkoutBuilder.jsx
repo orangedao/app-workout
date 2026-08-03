@@ -20,6 +20,7 @@ const WorkoutBuilder = () => {
   const [filterEquipment, setFilterEquipment] = useState('Все');
   const [showSavedMessage, setShowSavedMessage] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [maxHR, setMaxHR] = useState('');
 
   const filteredExercises = exercises.filter(ex => {
     const muscleMatch = filterMuscle === 'Все' || ex.muscleGroup === filterMuscle;
@@ -46,15 +47,17 @@ const WorkoutBuilder = () => {
     setSelectedExercises([]);
     setWorkoutName('');
     setSearchQuery('');
+    setMaxHR('');
   };
 
   const saveWorkout = () => {
     if (selectedExercises.length === 0) return;
-    
+
     const workout = {
       name: workoutName || `Тренировка ${new Date().toLocaleDateString()}`,
       exercises: selectedExercises,
-      createdAt: new Date().toISOString()
+      createdAt: new Date().toISOString(),
+      maxHR: maxHR ? parseInt(maxHR) : null
     };
 
     localStorage.setItem('workout_lastCreated', JSON.stringify(workout));
@@ -199,6 +202,18 @@ const WorkoutBuilder = () => {
                     value={workoutName}
                     onChange={(e) => setWorkoutName(e.target.value)}
                     placeholder="Например: День груди и трицепса"
+                  />
+                </div>
+
+                <div className="workout-name-input">
+                  <label>Макс. ЧСС (уд/мин):</label>
+                  <input
+                    type="number"
+                    value={maxHR}
+                    onChange={(e) => setMaxHR(e.target.value)}
+                    placeholder="Например: 160"
+                    min="100"
+                    max="220"
                   />
                 </div>
 

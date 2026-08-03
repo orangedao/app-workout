@@ -1,43 +1,59 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppContext } from '../context/AppContext';
-import { Calendar, Plus, X, Clock, Dumbbell, Weight, Sparkles } from 'lucide-react';
+import { Calendar, Plus, X, Clock, Dumbbell, ChevronLeft, ChevronRight, HeartPulse, GripVertical } from 'lucide-react';
 import './Schedule.css';
+
+const HOURS = Array.from({ length: 18 }, (_, i) => i + 6);
+const DAY_NAMES = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
 const Schedule = () => {
   const { userProfile, addToSchedule, removeFromSchedule, getWorkoutsForDate, buildWorkout } = useAppContext();
-  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [currentWeek, setCurrentWeek] = useState(getWeekStart(new Date()));
   const [showAddModal, setShowAddModal] = useState(false);
+  const [draggedWorkout, setDraggedWorkout] = useState(null);
+  const [dragOverDate, setDragOverDate] = useState(null);
 
-  const getWeekDays = () => {
-    const today = new Date();
-    const days = [];
-    for (let i = -3; i <= 10; i++) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
-      days.push(date);
-    }
-    return days;
-  };
+  function getWeekStart(date) {
+    const d = new Date(date);
+    const day = d.getDay();
+    const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+    const monday = new Date(d.setDate(diff));
+    monday.setHours(0, 0, 0, 0);
+    return monday;
+  }
 
-  const weekDays = getWeekDays();
-  const currentWorkouts = getWorkoutsForDate(selectedDate);
+  const weekDays = Array.from({ length: 7 }, (_, i) => {
+    const date = new Date(currentWeek);
+    date.setDate(currentWeek.getDate() + i);
+    return date;
+  });
+
+  const today = new Date();
+  const isToday = (date) => date.toDateString() === today.toDateString();
 
   const formatDate = (date) => {
-    return date.toLocaleDateString('ru-RU', {
-      weekday: 'short',
-      day: 'numeric',
-      month: 'numeric'
-    });
+    return date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'short' });
   };
 
-  const isToday = (date) => {
-    const today = new Date();
-    return date.toDateString() === today.toDateString();
+  const formatTime = (hour) => {
+    return `${hour.toString().padStart(2, '0')}:00`;
   };
 
-  const isSelected = (date) => {
-    return date.toDateString() === selectedDate.toDateString();
+  const goToPrevWeek = () => {
+    const prev = new Date(currentWeek);
+    prev.setDate(prev.getDate() - 7);
+    setCurrentWeek(prev);
+  };
+
+  const goToNextWeek = () => {
+    const next = new Date(currentWeek);
+    next.setDate(next.getDate() + 7);
+    setCurrentWeek(next);
+  };
+
+  const goToToday = () => {
+    setCurrentWeek(getWeekStart(new Date()));
   };
 
   const handleAddQuickWorkout = () => {
@@ -55,14 +71,51 @@ const Schedule = () => {
     ];
 
     const workout = buildWorkout(quickExercises, 'Быстрая тренировка');
-    addToSchedule(selectedDate, workout);
+    const todayKey = today.toISOString().split('T')[0];
+    addToSchedule(new Date(todayKey), workout);
     setShowAddModal(false);
   };
 
-  const handleRemoveWorkout = (workoutId) => {
+  const handleRemoveWorkout = (date, workoutId) => {
     if (confirm('Удалить эту тренировку из расписания?')) {
-      removeFromSchedule(selectedDate, workoutId);
+      removeFromSchedule(date, workoutId);
     }
+  };
+
+  const handleDragStart = (e, workout, date) => {
+    setDraggedWorkout({ workout, date });
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/plain', workout.id);
+  };
+
+  const handleDragOver = (e, date) => {
+    e.preventDefault();
+    e.dataTransfer.dropEffect = 'move';
+    setDragOverDate(date);
+  };
+
+  const handleDragLeave = () => {
+    setDragOverDate(null);
+  };
+
+  const handleDrop = (e, targetDate) => {
+    e.preventDefault();
+    setDragOverDate(null);
+    if (!draggedWorkout) return;
+
+    const sourceDate = draggedWorkout.date;
+    const workout = draggedWorkout.workout;
+
+    if (sourceDate.toDateString() === targetDate.toDateString()) return;
+
+    removeFromSchedule(sourceDate, workout.id);
+    addToSchedule(targetDate, workout);
+    setDraggedWorkout(null);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedWorkout(null);
+    setDragOverDate(null);
   };
 
   if (!userProfile) {
@@ -84,82 +137,104 @@ const Schedule = () => {
         <div className="schedule-header-icon"><Calendar size={32} /></div>
         <h1>Расписание тренировок</h1>
         <p className="user-greeting">
-          Привет! Ваш уровень: <strong>{userProfile.fitnessLevel}</strong> | 
+          Привет! Ваш уровень: <strong>{userProfile.fitnessLevel}</strong> |
           Цель: <strong>{userProfile.goals?.join(', ')}</strong>
         </p>
       </div>
 
-      <div className="calendar-strip">
-        {weekDays.map((date, index) => (
-          <button
-            key={index}
-            className={`date-card ${isToday(date) ? 'today' : ''} ${isSelected(date) ? 'selected' : ''}`}
-            onClick={() => setSelectedDate(date)}
-          >
-            <span className="weekday">{date.toLocaleDateString('ru-RU', { weekday: 'short' })}</span>
-            <span className="day">{date.getDate()}</span>
-            <span className="month">{date.toLocaleDateString('ru-RU', { month: 'short' })}</span>
-          </button>
-        ))}
-      </div>
-
-      <div className="day-schedule">
-        <div className="day-header">
-          <h2>
-            {formatDate(selectedDate)}
-            {isToday(selectedDate) && <span className="today-badge">Сегодня</span>}
-          </h2>
-          <button 
-            className="add-workout-btn"
-            onClick={() => setShowAddModal(true)}
-          >
-            <Plus size={16} /> Добавить тренировку
-          </button>
+      <div className="calendar-week-view">
+        <div className="week-nav">
+          <button className="nav-btn" onClick={goToPrevWeek}><ChevronLeft size={16} /></button>
+          <button className="today-btn" onClick={goToToday}>Сегодня</button>
+          <span className="week-range">
+            {formatDate(weekDays[0])} — {formatDate(weekDays[6])}
+          </span>
+          <button className="nav-btn" onClick={goToNextWeek}><ChevronRight size={16} /></button>
         </div>
 
-        {currentWorkouts.length === 0 ? (
-          <div className="no-workouts">
-            <div className="no-workouts-icon"><Sparkles size={40} /></div>
-            <p>На этот день пока нет запланированных тренировок</p>
-            <p className="hint">Нажмите "Добавить тренировку", чтобы создать новую</p>
-          </div>
-        ) : (
-          <div className="workouts-list">
-            {currentWorkouts.map((workout) => (
-              <div key={workout.id} className="workout-card">
-                <div className="workout-header">
-                  <h3>{workout.name}</h3>
-                  <button 
-                    className="delete-btn"
-                    onClick={() => handleRemoveWorkout(workout.id)}
-                  >
-                    <X size={18} />
-                  </button>
-                </div>
-                
-                <div className="workout-meta">
-                  <span><Clock size={14} /> ~{workout.totalDuration || workout.exercises?.length * 5 || 30} мин</span>
-                  <span><Dumbbell size={14} /> {workout.exercises?.length || 0} упражнений</span>
-                </div>
-
-                <div className="exercises-preview">
-                  {workout.exercises?.slice(0, 3).map((ex, idx) => (
-                    <div key={idx} className="exercise-row">
-                      <span className="sets-reps">{ex.sets} x {ex.reps}</span>
-                      <span className="exercise-name">{ex.name}</span>
-                      {ex.recommendedWeight && ex.recommendedWeight !== ex.reps && (
-                        <span className="weight"><Weight size={14} /> {ex.recommendedWeight}</span>
-                      )}
-                    </div>
-                  ))}
-                  {workout.exercises?.length > 3 && (
-                    <p className="more-exercises">+ ещё {workout.exercises.length - 3} упр.</p>
-                  )}
-                </div>
-              </div>
+        <div className="week-grid">
+          <div className="time-column">
+            <div className="time-header">Время</div>
+            {HOURS.map(hour => (
+              <div key={hour} className="time-slot-label">{formatTime(hour)}</div>
             ))}
           </div>
-        )}
+
+          {weekDays.map((date, dayIdx) => {
+            const dayWorkouts = getWorkoutsForDate(date);
+            const isTodayDate = isToday(date);
+
+            return (
+              <div
+                key={dayIdx}
+                className={`day-column ${isTodayDate ? 'today-column' : ''} ${dragOverDate?.toDateString() === date.toDateString() ? 'drag-over' : ''}`}
+                onDragOver={(e) => handleDragOver(e, date)}
+                onDragLeave={handleDragLeave}
+                onDrop={(e) => handleDrop(e, date)}
+              >
+                <div className={`day-header-col ${isTodayDate ? 'today-header' : ''}`}>
+                  <span className="day-name">{DAY_NAMES[dayIdx]}</span>
+                  <span className="day-number">{date.getDate()}</span>
+                </div>
+
+                <div className="day-slots">
+                  {HOURS.map(hour => (
+                    <div key={hour} className="time-slot" />
+                  ))}
+
+                  {dayWorkouts.map((workout) => {
+                    const startTime = 6;
+                    const duration = workout.totalDuration || workout.exercises?.length * 5 || 30;
+                    const topPx = ((startTime - 6) * 60 + 0) * 4;
+                    const heightPx = Math.max(duration * 4, 40);
+
+                    return (
+                      <div
+                        key={workout.id}
+                        className={`workout-card-drag ${isTodayDate ? 'today-workout' : ''}`}
+                        style={{
+                          top: `${topPx}px`,
+                          height: `${heightPx}px`,
+                        }}
+                        draggable
+                        onDragStart={(e) => handleDragStart(e, workout, date)}
+                        onDragEnd={handleDragEnd}
+                      >
+                        <div className="workout-card-drag-handle">
+                          <GripVertical size={14} />
+                        </div>
+                        <div className="workout-card-drag-content">
+                          <h4>{workout.name}</h4>
+                          <div className="workout-card-drag-meta">
+                            <span><Clock size={12} /> ~{duration} мин</span>
+                            <span><Dumbbell size={12} /> {workout.exercises?.length || 0} упр.</span>
+                          </div>
+                          {workout.maxHR && (
+                            <div className="workout-card-drag-hr">
+                              <HeartPulse size={12} /> Макс ЧСС: {workout.maxHR}
+                            </div>
+                          )}
+                          <button
+                            className="workout-card-drag-delete"
+                            onClick={(e) => { e.stopPropagation(); handleRemoveWorkout(date, workout.id); }}
+                          >
+                            <X size={12} />
+                          </button>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="schedule-actions">
+        <button className="add-workout-btn" onClick={() => setShowAddModal(true)}>
+          <Plus size={16} /> Добавить тренировку
+        </button>
       </div>
 
       {showAddModal && (
@@ -172,14 +247,14 @@ const Schedule = () => {
               </button>
             </div>
             <p>Выберите тип тренировки:</p>
-            
+
             <div className="modal-options">
               <button className="option-card" onClick={handleAddQuickWorkout}>
                 <span className="option-icon">⚡</span>
                 <strong>Быстрая тренировка</strong>
                 <p>Базовые упражнения без оборудования</p>
               </button>
-              
+
               <Link to="/builder" className="option-card" onClick={() => setShowAddModal(false)}>
                 <span className="option-icon">🏗️</span>
                 <strong>Конструктор</strong>

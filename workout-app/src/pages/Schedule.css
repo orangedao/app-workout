@@ -1,12 +1,12 @@
 .schedule-container {
-  max-width: 1000px;
+  max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
 }
 
 .schedule-header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 .schedule-header-icon {
@@ -42,145 +42,287 @@
   color: var(--primary);
 }
 
-.calendar-strip {
+.calendar-week-view {
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px var(--card-shadow);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.week-nav {
   display: flex;
-  gap: 0.5rem;
-  overflow-x: auto;
-  padding: 1rem 0;
-  margin-bottom: 2rem;
-  scrollbar-width: thin;
-  scrollbar-color: var(--primary) var(--scrollbar-track);
-}
-
-.calendar-strip::-webkit-scrollbar {
-  height: 6px;
-}
-
-.calendar-strip::-webkit-scrollbar-track {
-  background: var(--scrollbar-track);
-  border-radius: 3px;
-}
-
-.calendar-strip::-webkit-scrollbar-thumb {
-  background: var(--primary);
-  border-radius: 3px;
-}
-
-.date-card {
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 72px;
-  height: 96px;
-  border: 2px solid var(--border);
-  border-radius: 14px;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  background: var(--secondary-bg);
+}
+
+.nav-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
   background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
   cursor: pointer;
+  color: var(--text);
   transition: all 0.2s;
 }
 
-.date-card:hover {
-  border-color: var(--primary);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px var(--card-shadow);
-}
-
-.date-card.today {
+.nav-btn:hover {
   background: var(--primary-bg);
   border-color: var(--primary);
 }
 
-.date-card.selected {
+.today-btn {
+  padding: 0.5rem 1rem;
   background: var(--primary);
   color: white;
-  border-color: var(--primary);
+  border: none;
+  border-radius: 10px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
 }
 
-.date-card .weekday {
-  font-size: 0.7rem;
-  text-transform: uppercase;
+.today-btn:hover {
+  background: var(--primary-hover);
+}
+
+.week-range {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  min-width: 200px;
+  text-align: center;
+}
+
+.week-grid {
+  display: grid;
+  grid-template-columns: 60px repeat(7, 1fr);
+  overflow-x: auto;
+}
+
+.time-column {
+  border-right: 1px solid var(--border);
+  background: var(--secondary-bg);
+}
+
+.time-header {
+  padding: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
   color: var(--text-muted);
-  margin-bottom: 0.25rem;
-  letter-spacing: 0.05em;
-}
-
-.date-card.today .weekday,
-.date-card.selected .weekday {
-  color: var(--primary);
-}
-
-.date-card.selected .weekday {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.date-card .day {
-  font-size: 1.5rem;
-  font-weight: 700;
-  line-height: 1;
-}
-
-.date-card .month {
-  font-size: 0.7rem;
   text-transform: uppercase;
-  color: var(--text-muted);
-  margin-top: 0.25rem;
   letter-spacing: 0.05em;
-}
-
-.date-card.selected .month {
-  color: rgba(255, 255, 255, 0.9);
-}
-
-.day-schedule {
-  background: var(--card-bg);
-  border-radius: 16px;
-  padding: 1.5rem;
-  box-shadow: 0 2px 12px var(--card-shadow);
-  border: 1px solid var(--border);
-}
-
-.day-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  padding-bottom: 1rem;
+  text-align: center;
   border-bottom: 1px solid var(--border);
 }
 
-.day-header h2 {
-  margin: 0;
-  font-size: 1.25rem;
-  color: var(--text);
+.time-slot-label {
+  height: 60px;
   display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  font-weight: 600;
+  align-items: flex-start;
+  justify-content: flex-end;
+  padding: 0 0.5rem;
+  font-size: 0.7rem;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
 }
 
-.today-badge {
+.day-column {
+  min-width: 100px;
+  position: relative;
+  border-right: 1px solid var(--border);
+  transition: background 0.2s;
+}
+
+.day-column:last-child {
+  border-right: none;
+}
+
+.day-column.today-column {
+  background: var(--primary-bg);
+}
+
+.day-column.drag-over {
+  background: var(--primary-bg);
+  box-shadow: inset 0 0 0 2px var(--primary);
+}
+
+.day-header-col {
+  padding: 0.5rem;
+  text-align: center;
+  border-bottom: 1px solid var(--border);
+  background: var(--card-bg);
+}
+
+.day-header-col.today-header {
   background: var(--primary);
   color: white;
-  padding: 0.2rem 0.75rem;
-  border-radius: 20px;
+  border-radius: 0 0 8px 8px;
+}
+
+.day-name {
+  display: block;
   font-size: 0.7rem;
   font-weight: 600;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.day-header-col.today-header .day-name {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.day-number {
+  display: block;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-top: 0.15rem;
+}
+
+.day-header-col.today-header .day-number {
+  color: white;
+}
+
+.day-slots {
+  position: relative;
+  min-height: 600px;
+}
+
+.time-slot {
+  height: 60px;
+  border-bottom: 1px solid var(--border);
+}
+
+.workout-card-drag {
+  position: absolute;
+  left: 4px;
+  right: 4px;
+  background: var(--card-bg);
+  border: 2px solid var(--primary);
+  border-radius: 10px;
+  box-shadow: 0 2px 8px var(--card-shadow);
+  cursor: grab;
+  transition: box-shadow 0.2s, transform 0.2s;
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.workout-card-drag:hover {
+  box-shadow: 0 4px 16px var(--card-shadow);
+  transform: translateY(-1px);
+  z-index: 20;
+}
+
+.workout-card-drag.dragging {
+  opacity: 0.5;
+  transform: rotate(2deg);
+}
+
+.workout-card-drag.today-workout {
+  border-color: var(--primary);
+}
+
+.workout-card-drag-handle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+  color: var(--text-muted);
+  cursor: grab;
+  flex-shrink: 0;
+}
+
+.workout-card-drag-handle:hover {
+  color: var(--primary);
+}
+
+.workout-card-drag-content {
+  padding: 0.5rem 0.75rem;
+  flex: 1;
+  min-height: 0;
+}
+
+.workout-card-drag-content h4 {
+  margin: 0 0 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.workout-card-drag-meta {
+  display: flex;
+  gap: 0.5rem;
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+}
+
+.workout-card-drag-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.workout-card-drag-hr {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.7rem;
+  color: var(--danger);
+  font-weight: 500;
+  margin-top: 0.25rem;
+}
+
+.workout-card-drag-delete {
+  position: absolute;
+  top: 0.25rem;
+  right: 0.25rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-muted);
+  padding: 0.15rem;
+  border-radius: 4px;
+  transition: background 0.2s, color 0.2s;
+  display: flex;
+}
+
+.workout-card-drag-delete:hover {
+  background: var(--danger-bg);
+  color: var(--danger);
+}
+
+.schedule-actions {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
 }
 
 .add-workout-btn {
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.7rem 1.25rem;
+  padding: 0.75rem 1.5rem;
   background: var(--primary);
   color: white;
   border: none;
   border-radius: 10px;
-  font-size: 0.9rem;
+  font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
@@ -192,13 +334,16 @@
   box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
-.no-workouts {
+.no-profile-message {
   text-align: center;
-  padding: 3rem 0;
-  color: var(--text-muted);
+  padding: 4rem 2rem;
+  background: var(--card-bg);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px var(--card-shadow);
+  border: 1px solid var(--border);
 }
 
-.no-workouts-icon {
+.no-profile-icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -210,136 +355,41 @@
   color: var(--text-muted);
 }
 
-.no-workouts p {
-  margin: 0.25rem 0;
+.no-profile-message h1 {
+  margin-bottom: 1rem;
+  color: var(--text);
+  font-size: 1.8rem;
+}
+
+.no-profile-message p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
   font-size: 0.95rem;
 }
 
-.no-workouts .hint {
-  font-size: 0.85rem;
-  margin-top: 0.5rem;
-  color: var(--text-muted);
-}
-
-.workouts-list {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.workout-card {
-  border: 2px solid var(--border);
-  border-radius: 14px;
-  padding: 1.25rem;
-  background: var(--secondary-bg);
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 2rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
   transition: all 0.2s;
 }
 
-.workout-card:hover {
-  border-color: var(--primary);
-  background: var(--card-bg);
-  box-shadow: 0 4px 16px var(--card-shadow);
-}
-
-.workout-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 0.75rem;
-}
-
-.workout-header h3 {
-  margin: 0;
-  color: var(--text);
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.delete-btn {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 32px;
-  height: 32px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  opacity: 0.5;
-  transition: opacity 0.2s, background 0.2s, color 0.2s;
-  border-radius: 8px;
-  color: var(--danger);
-}
-
-.delete-btn:hover {
-  opacity: 1;
-  background: var(--danger-bg);
-}
-
-.workout-meta {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1rem;
-  font-size: 0.8rem;
-  color: var(--text-secondary);
-}
-
-.workout-meta span {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-}
-
-.exercises-preview {
-  background: var(--card-bg);
-  border-radius: 10px;
-  padding: 1rem;
-  border: 1px solid var(--border);
-}
-
-.exercise-row {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.exercise-row:last-child {
-  border-bottom: none;
-}
-
-.sets-reps {
+.btn-primary {
   background: var(--primary);
   color: white;
-  padding: 0.2rem 0.5rem;
-  border-radius: 6px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  min-width: 48px;
-  text-align: center;
 }
 
-.exercise-name {
-  flex: 1;
-  color: var(--text);
-  font-size: 0.85rem;
-}
-
-.weight {
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  color: var(--info);
-  font-size: 0.8rem;
-  font-weight: 500;
-}
-
-.more-exercises {
-  margin: 0.5rem 0 0 0;
-  color: var(--text-muted);
-  font-size: 0.8rem;
-  font-style: italic;
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
 }
 
 .modal-overlay {
@@ -464,64 +514,6 @@
   background: var(--border);
 }
 
-.no-profile-message {
-  text-align: center;
-  padding: 4rem 2rem;
-  background: var(--card-bg);
-  border-radius: 16px;
-  box-shadow: 0 2px 12px var(--card-shadow);
-  border: 1px solid var(--border);
-}
-
-.no-profile-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 72px;
-  height: 72px;
-  background: var(--secondary-bg);
-  border-radius: 20px;
-  margin-bottom: 1rem;
-  color: var(--text-muted);
-}
-
-.no-profile-message h1 {
-  margin-bottom: 1rem;
-  color: var(--text);
-  font-size: 1.8rem;
-}
-
-.no-profile-message p {
-  color: var(--text-secondary);
-  margin-bottom: 1.5rem;
-  font-size: 0.95rem;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 2rem;
-  border: none;
-  border-radius: 10px;
-  font-size: 0.95rem;
-  font-weight: 600;
-  cursor: pointer;
-  text-decoration: none;
-  transition: all 0.2s;
-}
-
-.btn-primary {
-  background: var(--primary);
-  color: white;
-}
-
-.btn-primary:hover {
-  background: var(--primary-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(76, 175, 80, 0.3);
-}
-
 @keyframes fadeIn {
   from { opacity: 0; }
   to { opacity: 1; }
@@ -532,47 +524,30 @@
   to { opacity: 1; transform: translateY(0); }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 768px) {
   .schedule-container {
     padding: 1rem;
   }
 
-  .calendar-strip {
-    gap: 0.25rem;
+  .week-grid {
+    grid-template-columns: 40px repeat(7, 80px);
+    font-size: 0.8rem;
   }
 
-  .date-card {
-    width: 56px;
-    height: 80px;
+  .time-column {
+    display: none;
   }
 
-  .date-card .day {
-    font-size: 1.2rem;
+  .day-column {
+    min-width: 70px;
   }
 
-  .day-header {
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
+  .workout-card-drag {
+    font-size: 0.7rem;
   }
 
-  .add-workout-btn {
-    width: 100%;
-    justify-content: center;
-  }
-
-  .workout-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.5rem;
-  }
-
-  .exercise-row {
+  .week-nav {
     flex-wrap: wrap;
-  }
-
-  .weight {
-    width: 100%;
-    margin-left: 56px;
+    gap: 0.5rem;
   }
 }

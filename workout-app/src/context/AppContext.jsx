@@ -125,7 +125,7 @@ export const AppProvider = ({ children }) => {
   };
 
   // Конструктор тренировки с расчетом параметров
-  const buildWorkout = (exercises, name = 'Новая тренировка') => {
+const buildWorkout = (exercises, name = 'Новая тренировка', maxHR = null) => {
     if (!Array.isArray(exercises)) {
       exercises = [exercises];
     }
@@ -135,7 +135,7 @@ export const AppProvider = ({ children }) => {
       sets: ex.defaultSets,
       reps: ex.defaultReps,
       recommendedWeight: calculateWeight(ex),
-      restTime: ex.difficulty === 'Легкий' ? '60 сек' : 
+      restTime: ex.difficulty === 'Легкий' ? '60 сек' :
                 ex.difficulty === 'Средний' ? '90 сек' : '120 сек'
     }));
 
@@ -144,7 +144,8 @@ export const AppProvider = ({ children }) => {
       name,
       exercises: workoutExercises,
       createdAt: new Date().toISOString(),
-      totalDuration: estimateDuration(workoutExercises)
+      totalDuration: estimateDuration(workoutExercises),
+      maxHR: maxHR || null
     };
   };
 
